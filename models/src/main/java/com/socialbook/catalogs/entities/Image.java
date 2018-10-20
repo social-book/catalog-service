@@ -1,0 +1,59 @@
+package com.socialbook.catalogs.entities;
+
+
+import javax.persistence.*;
+import java.util.List;
+
+@Entity(name = "image_table")
+@NamedQueries(value = {
+        @NamedQuery(name = "Image.getAll", query = "SELECT image from image_table image")
+//        @NamedQuery(name = "Image.getAlbums", query = "SELECT ")
+})
+public class Image {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer image_id;
+
+    @Column(name = "image_name")
+    private String imageName;
+
+    @Column(name = "image_src")
+    private String imageSrc;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "album_id")
+    private List<Album> album;
+
+    public Integer getId() {
+        return image_id;
+    }
+
+    public void setId(Integer id) {
+        this.image_id = id;
+    }
+
+    public String getImageName() {
+        return imageName;
+    }
+
+    public void setImageName(String imageName) {
+        this.imageName = imageName;
+    }
+
+    public String getImageSrc() {
+        return imageSrc;
+    }
+
+    public void setImageSrc(String imageSrc) {
+        this.imageSrc = imageSrc;
+    }
+
+    public List<Album> getAlbum() {
+        return album;
+    }
+
+    public void setAlbum(List<Album> album) {
+        this.album = album;
+    }
+}
