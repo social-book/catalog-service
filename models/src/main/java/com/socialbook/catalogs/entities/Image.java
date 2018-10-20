@@ -6,8 +6,10 @@ import java.util.List;
 
 @Entity(name = "image_table")
 @NamedQueries(value = {
-        @NamedQuery(name = "Image.getAll", query = "SELECT image from image_table image")
-//        @NamedQuery(name = "Image.getAlbums", query = "SELECT ")
+        @NamedQuery(name = "Image.getAll",
+                query = "SELECT image from image_table image"),
+        @NamedQuery(name = "Image.getImage",
+                query = "SELECT image FROM image_table image WHERE image.image_id = :image_id")
 })
 public class Image {
 

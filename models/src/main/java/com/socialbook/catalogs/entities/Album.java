@@ -6,8 +6,10 @@ import java.util.List;
 
 @Entity(name = "album_table")
 @NamedQueries(value = {
-        @NamedQuery(name = "Album.getAll", query = "SELECT album FROM album_table album"),
-        @NamedQuery(name = "Album.getUserAlbums", query = "SELECT album FROM album_table album WHERE album.albumUserReferenceId = :albumUserReferenceId")
+        @NamedQuery(name = "Album.getAll",
+                query = "SELECT album FROM album_table album"),
+        @NamedQuery(name = "Album.getUserAlbums",
+                query = "SELECT album FROM album_table album WHERE album.albumUserReferenceId = :albumUserReferenceId")
 })
 public class Album {
     @Id

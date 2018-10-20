@@ -19,4 +19,9 @@ public class CategoriesBean {
     public List<Category> getCategories() {
         return em.createNamedQuery("Category.getAll").getResultList();
     }
+
+    public Category getCategory(Integer categoryId) {
+        em.createNamedQuery("Category.getCategory").setParameter("category_id", categoryId);
+        return em.getReference(Category.class, categoryId);
+    }
 }

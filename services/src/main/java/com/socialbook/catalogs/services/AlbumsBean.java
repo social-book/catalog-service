@@ -16,8 +16,11 @@ public class AlbumsBean {
     @PersistenceContext(unitName = "catalog-service-jpa")
     private EntityManager em;
 
-    public List<Album> geAlbums() {
+    public List<Album> getAlbums() {
         return em.createNamedQuery("Album.getAll").getResultList();
     }
 
+    public List<Album> getCategory(Integer userId) {
+        return em.createNamedQuery("Album.getUserAlbums").setParameter("albumUserReferenceId", userId).getResultList();
+    }
 }

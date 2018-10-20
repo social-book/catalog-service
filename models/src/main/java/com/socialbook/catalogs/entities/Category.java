@@ -5,8 +5,10 @@ import java.util.List;
 
 @Entity(name = "category_table")
 @NamedQueries({
-        @NamedQuery(name = "Category.getTitle", query = "SELECT category.categoryTitle FROM category_table category WHERE category.category_id = :category_id"),
-        @NamedQuery(name = "Category.getAll", query = "SELECT category FROM category_table category")
+        @NamedQuery(name = "Category.getCategory",
+                query = "SELECT category.categoryTitle FROM category_table category WHERE category.category_id = :category_id"),
+        @NamedQuery(name = "Category.getAll",
+                query = "SELECT category FROM category_table category")
 })
 public class Category {
 
