@@ -5,9 +5,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.socialbook.catalogs.entities.Album;
 import com.socialbook.catalogs.entities.Category;
 import com.socialbook.catalogs.entities.Image;
-import com.socialbook.catalogs.services.AlbumsBean;
-import com.socialbook.catalogs.services.CategoriesBean;
-import com.socialbook.catalogs.services.ImagesBean;
+import com.socialbook.catalogs.coreServices.AlbumsBean;
+import com.socialbook.catalogs.coreServices.CategoriesBean;
+import com.socialbook.catalogs.coreServices.ImagesBean;
 
 import javax.inject.Inject;
 import javax.servlet.ServletException;
