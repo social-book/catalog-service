@@ -13,3 +13,5 @@ kumuluzee:
     username: postgres
     password: postgres
     max-pool-size: 20
+
+#    docker run -d -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=nejc -p 5432:5432 postgres:10.5
