@@ -1,0 +1,58 @@
+package com.socialbook.catalogs.coreServices;
+
+import com.socialbook.catalogs.entities.Album;
+
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.RequestScoped;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
+import java.util.List;
+import java.util.logging.Logger;
+
+@RequestScoped
+public class AlbumsBean {
+
+    private static final String TAG = AlbumsBean.class.getName();
+    private Logger logger = Logger.getLogger(TAG);
+
+    @PersistenceContext(unitName = "catalog-service-jpa")
+    private EntityManager em;
+
+    //READ
+    public List<Album> getAlbums() {
+        return em.createNamedQuery("Album.getAll").getResultList();
+    }
+
+    //READ
+    public List<Album> getCategory(Integer userId) {
+        return em.createNamedQuery("Album.getUserAlbums").setParameter("albumUserReferenceId", userId).getResultList();
+    }
+
+    //CREATE
+    @Transactional
+    public void createAlbum(Album album) {
+        logger.info("creating album");
+        if (album != null)
+            em.persist(album);
+    }
+
+    //UPDATE
+    @Transactional
+    public void updateAlbum(Album album, Integer id) {
+        //TODO album param should be albumDTO!!!
+        logger.info("updating album");
+        Album albumOld = em.find(Album.class, id);
+        albumOld.setAlbumTitle(album.getAlbumTitle());
+        em.persist(albumOld);
+    }
+
+    //DELETE
+    @Transactional
+    public void deletAlbum(Integer id) {
+        logger.info("deleting album with id: " + id);
+        Album album = em.find(Album.class, id);
+        if (album != null)
+            em.remove(album);
+    }
+}
