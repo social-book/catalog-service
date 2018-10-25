@@ -27,6 +27,8 @@ public class ImagesBean {
     private EntityManager em;
 
 
+    //DTOs, kompleksni beani.. todos itd.
+
     //Uploader service
     //Like/Comment se združita
     //Uploader komunicira s CatalogServiceom ---- UserId pa pride že s frontenda
@@ -72,25 +74,32 @@ public class ImagesBean {
     @Transactional
     public void addImage(Image image) {
         logger.info(TAG + ": adding new image");
-        if (image != null)
+        if (image != null){
+            em.getTransaction().begin();
             em.persist(image);
+            em.getTransaction().commit();
+        }
     }
 
     //UPDATE
     @Transactional
     public void updateImage(Image image, int id) { //TODO here must be ImageDTO!!!!! as attr
         logger.info(TAG + ": updating image");
+        em.getTransaction().begin();
         Image imageOld = em.find(Image.class, id);
         imageOld.setImageName(image.getImageName());
         imageOld.setImageSrc(image.getImageSrc());
         em.persist(imageOld);
+        em.getTransaction().commit();
     }
 
     //DELETE
     @Transactional
     public void deleteImage(Integer id) {
         logger.info(TAG + ": deleting image with id: " + id);
+        em.getTransaction().begin();
         Image imageToDel = em.find(Image.class, id);
         em.remove(imageToDel);
+        em.getTransaction().commit();
     }
 }

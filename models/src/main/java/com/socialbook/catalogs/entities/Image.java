@@ -23,9 +23,9 @@ public class Image {
     @Column(name = "image_src")
     private String imageSrc;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "album_id")
-    private List<Album> album;
+    private Album album;
 
     public Integer getId() {
         return image_id;
@@ -51,11 +51,11 @@ public class Image {
         this.imageSrc = imageSrc;
     }
 
-    public List<Album> getAlbum() {
+    public Album getAlbum() {
         return album;
     }
 
-    public void setAlbum(List<Album> album) {
+    public void setAlbum(Album album) {
         this.album = album;
     }
 }

@@ -34,23 +34,30 @@ public class CategoriesBean {
     @Transactional
     public void createCategory(Category category) {
         logger.info("adding new category");
-        if (category != null)
+        if (category != null){
+            em.getTransaction().begin();
             em.persist(category);
+            em.getTransaction().commit();
+        }
     }
 
     //UPDATE
     @Transactional
     public void updateCategory(Category category, Integer id) {
         logger.info("updating category with id: " + id);
+        em.getTransaction().begin();
         Category categoryOld = em.find(Category.class, id);
         categoryOld.setCategoryTitle(category.getCategoryTitle());
         em.persist(categoryOld);
+        em.getTransaction().commit();
     }
 
     //DELETE
     @Transactional
     public void remoteCategory(Integer id) {
+        em.getTransaction().begin();
         Category category = em.find(Category.class, id);
         em.remove(category);
+        em.getTransaction().commit();
     }
 }

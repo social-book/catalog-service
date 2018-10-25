@@ -7,6 +7,7 @@ import javax.enterprise.context.RequestScoped;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
+import javax.ws.rs.NotFoundException;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -29,30 +30,47 @@ public class AlbumsBean {
         return em.createNamedQuery("Album.getUserAlbums").setParameter("albumUserReferenceId", userId).getResultList();
     }
 
+    //READ
+    public Album getAlbum(Integer id) {
+        logger.info("Getting album with id: " + id);
+        Album album = em.find(Album.class, id);
+        if (album != null)
+            return album;
+        throw new NotFoundException("Album not found with id: " + id);
+    }
+
     //CREATE
     @Transactional
     public void createAlbum(Album album) {
         logger.info("creating album");
-        if (album != null)
+        if (album != null){
+            em.getTransaction().begin();
             em.persist(album);
+            em.flush();
+            em.getTransaction().commit();
+        }
     }
 
     //UPDATE
     @Transactional
     public void updateAlbum(Album album, Integer id) {
         //TODO album param should be albumDTO!!!
+        em.getTransaction().begin();
         logger.info("updating album");
         Album albumOld = em.find(Album.class, id);
         albumOld.setAlbumTitle(album.getAlbumTitle());
         em.persist(albumOld);
+        em.getTransaction().commit();
     }
 
     //DELETE
     @Transactional
     public void deletAlbum(Integer id) {
         logger.info("deleting album with id: " + id);
+        em.getTransaction().begin();
         Album album = em.find(Album.class, id);
         if (album != null)
             em.remove(album);
+        em.getTransaction().commit();
     }
 }
