@@ -9,7 +9,7 @@ public class AlbumDto {
     private Integer id;
     private String title;
     private String userId;
-    private List<Image> images;
+    private List<ImageDto> images;
     private Category category;
 
     public Integer getId() {
@@ -36,11 +36,11 @@ public class AlbumDto {
         this.userId = userId;
     }
 
-    public List<Image> getImages() {
+    public List<ImageDto> getImages() {
         return images;
     }
 
-    public void setImages(List<Image> images) {
+    public void setImages(List<ImageDto> images) {
         this.images = images;
     }
 

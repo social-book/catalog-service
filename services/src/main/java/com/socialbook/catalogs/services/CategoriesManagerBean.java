@@ -7,13 +7,14 @@ import com.socialbook.catalogs.entities.Category;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import java.util.logging.Logger;
 
-@ApplicationScoped
+@RequestScoped
 public class CategoriesManagerBean {
 
 
@@ -43,5 +44,12 @@ public class CategoriesManagerBean {
         Category category = new Category();
         category.setCategoryTitle(categoryDto.getTitle());
         categoriesBean.createCategory(category);
+    }
+
+
+    //READ deafultCategory
+    public Category getDefaultCategory() {
+        logger.info("reading default category");
+        return categoriesBean.getCategory(1);
     }
 }

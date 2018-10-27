@@ -3,6 +3,7 @@ package com.socialbook.catalogs.services;
 import com.socialbook.catalogs.coreServices.AlbumsBean;
 import com.socialbook.catalogs.coreServices.CategoriesBean;
 import com.socialbook.catalogs.coreServices.ImagesBean;
+import com.socialbook.catalogs.dtos.AlbumDto;
 import com.socialbook.catalogs.dtos.ImageDto;
 import com.socialbook.catalogs.entities.Album;
 import com.socialbook.catalogs.entities.Category;
@@ -39,6 +40,9 @@ public class ImagesManagerBean {
     @Inject
     private CategoriesBean categoriesBean;
 
+    @Inject
+    private CategoriesManagerBean categoriesManagerBean;
+
 
     @PostConstruct
     private void init() {
@@ -51,6 +55,7 @@ public class ImagesManagerBean {
     }
 
 
+    //User can add new image with category if not set then default is taken!
     //CREATE -> add image into album as solo image, if category specified otherwise default will be taken
     @Transactional
     public void postImage(ImageDto imageDto) {
@@ -70,13 +75,11 @@ public class ImagesManagerBean {
         imagesBean.addImage(image);
         em.flush();
         em.getTransaction().commit();
-        //TODO Is there everything added?
     }
 
     @Transactional
     public void postImages(List<ImageDto> imageDtos) {
         Album album;
-        //We suspect for bulkinsert, because id of album will be same for all of imageDtos
         ImageDto imageDto = imageDtos.get(0);
 
         if (imageDto.getAlbum().getId() == null) {
@@ -106,13 +109,63 @@ public class ImagesManagerBean {
         if (imageDto.getAlbum().getCategory() != null) {
             album.setCategory(imageDto.getAlbum().getCategory());
         } else {
-            album.setCategory(getDefaultCategory());
+            album.setCategory(categoriesManagerBean.getDefaultCategory());
         }
         return album;
     }
-    private Category getDefaultCategory() {
-        return categoriesBean.getCategory(1);
+
+    //READ all images from one album with id
+    public List<ImageDto> getAlbumImages(Integer albumId) {
+        Album album = albumsBean.getAlbum(albumId);
+        List<ImageDto> imageDtos = new ArrayList<>();
+        for (Image image: album.getImages()) {
+            ImageDto imageDto = new ImageDto();
+            imageDto.setAlbum(null);
+            imageDto.setImageSrc(image.getImageSrc());
+            imageDto.setImageName(image.getImageName());
+            imageDtos.add(imageDto);
+        }
+        return imageDtos;
     }
+
+    //READ
+    public AlbumDto getAlbum(Integer albumId) {
+        Album album = albumsBean.getAlbum(albumId);
+        AlbumDto albumDto = new AlbumDto();
+        List<ImageDto> imageDtos = new ArrayList<>();
+        for (Image image: album.getImages()) {
+            ImageDto imageDto = new ImageDto();
+            imageDto.setImageName(image.getImageName());
+            imageDtos.add(imageDto);
+        }
+        albumDto.setImages(imageDtos);
+        albumDto.setTitle(album.getAlbumTitle());
+        albumDto.setId(albumId);
+        return albumDto;
+    }
+
+    //READ
+//    public List<AlbumDto> getUsersAlbum(String userId) {
+//        List<Album> albums = albumsBean.getUserAlbums(userId);
+//        List<AlbumDto> albumDtos = new ArrayList<>();
+//        for (Album album : albums) {
+//            AlbumDto albumDto = new AlbumDto();
+//            albumDto.setTitle(album.getAlbumTitle());
+//            albumDto.setCategory(album.getCategory());
+//            albumDto.setId(album.getAlbum_id());
+//
+//            List<ImageDto> imageDtos2 = new ArrayList<>();
+//            for (Image image: album.getImages()) {
+//                ImageDto imageDto = new ImageDto();
+//                imageDto.setImageName(image.getImageName());
+//                imageDto.setImageData(image.getImageData());
+//                imageDtos2.add(imageDto);
+//            }
+//            albumDto.setImages(imageDtos2);
+//            albumDtos.add(albumDto);
+//        }
+//        return albumDtos;
+//    }
 }
 
 

@@ -6,9 +6,14 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.context.RequestScoped;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.ParameterExpression;
+import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
 import javax.ws.rs.NotFoundException;
 import java.util.List;
+import java.util.UUID;
 import java.util.logging.Logger;
 
 @RequestScoped
@@ -37,6 +42,11 @@ public class AlbumsBean {
         if (album != null)
             return album;
         throw new NotFoundException("Album not found with id: " + id);
+    }
+
+    //READ
+    public List<Album> getUserAlbums(String userId) {
+        return em.createNamedQuery("Album.getUserAlbums").setParameter("albumUserReferenceId", userId).getResultList();
     }
 
     //CREATE

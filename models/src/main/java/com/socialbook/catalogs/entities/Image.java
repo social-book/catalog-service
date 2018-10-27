@@ -58,4 +58,5 @@ public class Image {
     public void setAlbum(Album album) {
         this.album = album;
     }
+
 }
