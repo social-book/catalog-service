@@ -9,7 +9,9 @@ docker hub
 * ``` docker run nribic/service-catalog:0.0.1 ``` runs on download and run image 
 * ``` docker tag nribic/service-catalog:0.0.1 nribic/service-catalog:latest```
 this tags service 0.0.1 as latest. Its admin duty to do this. Kubernetes check
-locally for latest and does not pull updated ones!!!    
+locally for latest and does not pull updated ones!!!   
+
+* ``` docker network ls ``` lists all docker networks
     
 # TRAVIS CI
  * Connect github with travis CI
