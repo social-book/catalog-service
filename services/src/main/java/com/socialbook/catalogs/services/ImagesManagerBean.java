@@ -5,8 +5,8 @@ import com.socialbook.catalogs.coreServices.CategoriesBean;
 import com.socialbook.catalogs.coreServices.ImagesBean;
 import com.socialbook.catalogs.dtos.AlbumDto;
 import com.socialbook.catalogs.dtos.ImageDto;
+import com.socialbook.catalogs.dtos.Mapper;
 import com.socialbook.catalogs.entities.Album;
-import com.socialbook.catalogs.entities.Category;
 import com.socialbook.catalogs.entities.Image;
 
 import javax.annotation.PostConstruct;
@@ -107,7 +107,7 @@ public class ImagesManagerBean {
         album.setAlbumTitle(imageDto.getAlbum().getTitle());
         album.setAlbumUserReferenceId(imageDto.getAlbum().getUserId());
         if (imageDto.getAlbum().getCategory() != null) {
-            album.setCategory(imageDto.getAlbum().getCategory());
+//            album.setCategory(imageDto.getAlbum().getCategory());
         } else {
             album.setCategory(categoriesManagerBean.getDefaultCategory());
         }
@@ -129,43 +129,43 @@ public class ImagesManagerBean {
     }
 
     //READ
-    public AlbumDto getAlbum(Integer albumId) {
-        Album album = albumsBean.getAlbum(albumId);
-        AlbumDto albumDto = new AlbumDto();
-        List<ImageDto> imageDtos = new ArrayList<>();
-        for (Image image: album.getImages()) {
-            ImageDto imageDto = new ImageDto();
-            imageDto.setImageName(image.getImageName());
-            imageDtos.add(imageDto);
-        }
-        albumDto.setImages(imageDtos);
-        albumDto.setTitle(album.getAlbumTitle());
-        albumDto.setId(albumId);
-        return albumDto;
+    public List<AlbumDto> getAllAlbums() {
+        List<Album> albums = albumsBean.getAlbums();
+        return Mapper.convertToAlbumDtos(albums);
     }
 
     //READ
-//    public List<AlbumDto> getUsersAlbum(String userId) {
-//        List<Album> albums = albumsBean.getUserAlbums(userId);
-//        List<AlbumDto> albumDtos = new ArrayList<>();
-//        for (Album album : albums) {
-//            AlbumDto albumDto = new AlbumDto();
-//            albumDto.setTitle(album.getAlbumTitle());
-//            albumDto.setCategory(album.getCategory());
-//            albumDto.setId(album.getAlbum_id());
-//
-//            List<ImageDto> imageDtos2 = new ArrayList<>();
-//            for (Image image: album.getImages()) {
-//                ImageDto imageDto = new ImageDto();
-//                imageDto.setImageName(image.getImageName());
-//                imageDto.setImageData(image.getImageData());
-//                imageDtos2.add(imageDto);
-//            }
-//            albumDto.setImages(imageDtos2);
-//            albumDtos.add(albumDto);
-//        }
-//        return albumDtos;
-//    }
+    public List<AlbumDto> getUserAlbums(String userId) {
+        List<Album> albums = albumsBean.getUserAlbums(userId);
+        return Mapper.convertToAlbumDtos(albums);
+    }
+
+    //CREATE
+    @Transactional
+    public void createAlbum(AlbumDto albumDto) {
+        em.getTransaction().begin();
+        albumsBean.createAlbum(Mapper.convertToDao(albumDto));
+        em.flush();
+        em.getTransaction().commit();
+    }
+
+    @Transactional
+    public void addImageToAlbum(Integer albumId, String userId) {
+        em.getTransaction().begin();
+        Album album = albumsBean.getAlbum(albumId);
+        List<Image> images = album.getImages();
+        Image image = new Image();
+        image.setImageName("NONE");//TODO pass it by params
+        image.setImageSrc("http://localhost:8082/upload-image?userId=" + userId + "&albumId=" + albumId);
+        image.setAlbum(album);
+        em.persist(image);
+        em.flush();
+        images.add(image);
+        album.setImages(images);
+        em.persist(album);
+        em.flush();
+        em.getTransaction().commit();
+    }
 }
 
 

@@ -22,8 +22,7 @@ public class Album {
     @Column(name = "album_user_referenceId")
     private String albumUserReferenceId;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "image_id")
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     private List<Image> images = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)

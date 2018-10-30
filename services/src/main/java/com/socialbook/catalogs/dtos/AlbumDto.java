@@ -10,7 +10,7 @@ public class AlbumDto {
     private String title;
     private String userId;
     private List<ImageDto> images;
-    private Category category;
+    private CategoryDto category;
 
     public Integer getId() {
         return id;
@@ -44,11 +44,11 @@ public class AlbumDto {
         this.images = images;
     }
 
-    public Category getCategory() {
+    public CategoryDto getCategory() {
         return category;
     }
 
-    public void setCategory(Category category) {
+    public void setCategory(CategoryDto category) {
         this.category = category;
     }
 }
