@@ -11,7 +11,7 @@ public class AppProperties {
     @ConfigValue(value = "external-services.enabled", watch = true)
     private boolean externalServicesEnabled;
 
-    @ConfigValue(value = "statistic-service.enagled", watch = true)
+    @ConfigValue(value = "statistic-service.enabled", watch = true)
     private boolean statisticServiceEnabled;
 
     public boolean isExternalServicesEnabled() {

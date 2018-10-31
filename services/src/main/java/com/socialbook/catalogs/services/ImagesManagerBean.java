@@ -10,6 +10,7 @@ import com.socialbook.catalogs.dtos.ImageDto;
 import com.socialbook.catalogs.dtos.Mapper;
 import com.socialbook.catalogs.entities.Album;
 import com.socialbook.catalogs.entities.Image;
+import com.socialbook.catalogs.interceptors.CollectRequests;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -148,6 +149,7 @@ public class ImagesManagerBean {
     }
 
     //READ
+    @CollectRequests
     public List<AlbumDto> getAllAlbums() {
         List<Album> albums = albumsBean.getAlbums();
         return Mapper.convertToAlbumDtos(albums);

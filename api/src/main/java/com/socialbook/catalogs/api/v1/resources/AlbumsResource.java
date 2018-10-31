@@ -4,6 +4,7 @@ import com.socialbook.catalogs.coreServices.AlbumsBean;
 import com.socialbook.catalogs.dtos.AlbumDto;
 import com.socialbook.catalogs.dtos.CategoryDto;
 import com.socialbook.catalogs.entities.Album;
+import com.socialbook.catalogs.interceptors.CollectRequests;
 import com.socialbook.catalogs.services.CategoriesManagerBean;
 import com.socialbook.catalogs.services.ImagesManagerBean;
 
@@ -64,7 +65,7 @@ public class AlbumsResource {
     @POST
     public Response addNewAlbum(AlbumDto albumDto) {
         imagesManagerBean.createAlbum(albumDto);
-        return Response.status(Response.Status.OK).build();
+        return Response.status(Response.Status.CREATED).build();
     }
 
     //add new image to album with service discovery
@@ -72,7 +73,7 @@ public class AlbumsResource {
     @Path("/add/{userId}/{albumId}")
     public Response addImageSrcToAlbum(@PathParam("userId") String userId, @PathParam("albumId") Integer albumId) {
         imagesManagerBean.addImageToAlbum(albumId, userId);
-        return Response.status(Response.Status.OK).build();
+        return Response.status(Response.Status.CREATED).build();
     }
 
 }
