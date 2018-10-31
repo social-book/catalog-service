@@ -1,5 +1,7 @@
 package com.socialbook.catalogs.services;
 
+import com.kumuluz.ee.discovery.annotations.DiscoverService;
+import com.socialbook.catalogs.configuration.AppProperties;
 import com.socialbook.catalogs.coreServices.AlbumsBean;
 import com.socialbook.catalogs.coreServices.CategoriesBean;
 import com.socialbook.catalogs.coreServices.ImagesBean;
@@ -16,9 +18,18 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
+import javax.ws.rs.InternalServerErrorException;
+import javax.ws.rs.ProcessingException;
+import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.core.GenericType;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.logging.Logger;
+
+import static jdk.nashorn.internal.runtime.regexp.joni.Config.log;
 
 @ApplicationScoped
 public class ImagesManagerBean {
@@ -30,6 +41,8 @@ public class ImagesManagerBean {
     @PersistenceContext(unitName = "catalog-service-jpa")
     private EntityManager em;
 
+    @Inject
+    private AppProperties appProperties;
 
     @Inject
     private ImagesBean imagesBean;
@@ -43,10 +56,16 @@ public class ImagesManagerBean {
     @Inject
     private CategoriesManagerBean categoriesManagerBean;
 
+    @Inject
+    @DiscoverService("statistic-service") //name is specified in config.yaml
+    private Optional<String> baseUrl;
+
+    private Client httpClient;
 
     @PostConstruct
     private void init() {
         logger.info("Initialization of bean...");
+        httpClient = ClientBuilder.newClient();
     }
 
     @PreDestroy
@@ -152,6 +171,7 @@ public class ImagesManagerBean {
     @Transactional
     public void addImageToAlbum(Integer albumId, String userId) {
         em.getTransaction().begin();
+        appProperties.isExternalServicesEnabled();
         Album album = albumsBean.getAlbum(albumId);
         List<Image> images = album.getImages();
         Image image = new Image();
@@ -165,6 +185,19 @@ public class ImagesManagerBean {
         em.persist(album);
         em.flush();
         em.getTransaction().commit();
+    }
+    private Image sendStatistic() {
+        if (appProperties.isExternalServicesEnabled()) {
+            try {
+                return httpClient
+                        .target(baseUrl.get() + "/v1/orders")
+                        .request().get(new GenericType<Image>(){});
+            }catch (WebApplicationException | ProcessingException e2) {
+                logger.severe(e2.getMessage());
+                throw new InternalServerErrorException(e2);
+            }
+        }
+        return null;
     }
 }
 
