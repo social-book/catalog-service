@@ -1,6 +1,7 @@
 package com.socialbook.catalogs.entities;
 
 
+import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.*;
 import java.util.List;
 
@@ -23,7 +24,8 @@ public class Image {
     @Column(name = "image_src")
     private String imageSrc;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    //@JsonbTransient
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "album_id")
     private Album album;
 

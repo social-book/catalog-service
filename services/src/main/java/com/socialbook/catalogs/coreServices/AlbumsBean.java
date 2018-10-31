@@ -64,12 +64,11 @@ public class AlbumsBean {
     //UPDATE
     @Transactional
     public void updateAlbum(Album album, Integer id) {
-        //TODO album param should be albumDTO!!!
         em.getTransaction().begin();
         logger.info("updating album");
         Album albumOld = em.find(Album.class, id);
         albumOld.setAlbumTitle(album.getAlbumTitle());
-        em.persist(albumOld);
+        em.merge(albumOld);
         em.getTransaction().commit();
     }
 

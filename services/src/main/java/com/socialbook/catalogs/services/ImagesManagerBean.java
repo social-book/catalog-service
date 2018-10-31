@@ -175,16 +175,18 @@ public class ImagesManagerBean {
         Album album = albumsBean.getAlbum(albumId);
         List<Image> images = album.getImages();
         Image image = new Image();
-        image.setImageName("NONE");//TODO pass it by params
+        image.setImageName("NONE");
         image.setImageSrc("http://localhost:8082/upload-image?userId=" + userId + "&albumId=" + albumId);
         image.setAlbum(album);
-        em.persist(image);
-        em.flush();
+        imagesBean.addImage(image);
         images.add(image);
         album.setImages(images);
-        em.persist(album);
-        em.flush();
+        albumsBean.updateAlbum(album, albumId);
         em.getTransaction().commit();
+
+        if (appProperties.isStatisticServiceEnabled()) {
+            logger.info("Sending statistic data -> not implemented yet");
+        }
     }
     private Image sendStatistic() {
         if (appProperties.isExternalServicesEnabled()) {
