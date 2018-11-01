@@ -46,7 +46,7 @@ public class AlbumsResource {
     @Path("{userId}")
     public Response getAlbum(@PathParam("userId") String userId) {
         List<AlbumDto> albums = imagesManagerBean.getUserAlbums(userId);
-        if (albums != null){
+        if (albums != null) {
             return Response.ok(albums).build();
         }
         return Response.status(Response.Status.NOT_FOUND).build();
@@ -70,9 +70,11 @@ public class AlbumsResource {
 
     //add new image to album with service discovery
     @GET
-    @Path("/add/{userId}/{albumId}")
-    public Response addImageSrcToAlbum(@PathParam("userId") String userId, @PathParam("albumId") Integer albumId) {
-        imagesManagerBean.addImageToAlbum(albumId, userId);
+    @Path("/add/{userId}/{albumId}/{imageId}")
+    public Response addImageSrcToAlbum(@PathParam("userId") String userId,
+                                       @PathParam("albumId") Integer albumId,
+                                       @PathParam("imageId") Integer imageId) {
+        imagesManagerBean.addImageToAlbum(albumId, userId, imageId);
         return Response.status(Response.Status.CREATED).build();
     }
 

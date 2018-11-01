@@ -171,14 +171,15 @@ public class ImagesManagerBean {
     }
 
     @Transactional
-    public void addImageToAlbum(Integer albumId, String userId) {
+    public void addImageToAlbum(Integer albumId, String userId, Integer imageId) {
         em.getTransaction().begin();
         appProperties.isExternalServicesEnabled();
         Album album = albumsBean.getAlbum(albumId);
         List<Image> images = album.getImages();
         Image image = new Image();
         image.setImageName("NONE");
-        image.setImageSrc("http://localhost:8082/upload-image?userId=" + userId + "&albumId=" + albumId);
+        //TODO image name and image core URL? service discovery?
+        image.setImageSrc("http://localhost:8082/images?imageId=" + imageId);
         image.setAlbum(album);
         imagesBean.addImage(image);
         images.add(image);
