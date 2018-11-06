@@ -4,5 +4,6 @@
        bean-discovery-mode="annotated">
     <interceptors>
         <class>com.socialbook.catalogs.interceptors.CollectRequestInterceptor</class>
+        <class>com.socialbook.catalogs.interceptors.ValidateAlbumInterceptor</class>
     </interceptors>
 </beans>

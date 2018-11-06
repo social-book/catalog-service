@@ -1,6 +1,8 @@
 package com.socialbook.catalogs.services;
 
 import com.kumuluz.ee.discovery.annotations.DiscoverService;
+import com.kumuluz.ee.rest.beans.QueryParameters;
+import com.kumuluz.ee.rest.utils.JPAUtils;
 import com.socialbook.catalogs.configuration.AppProperties;
 import com.socialbook.catalogs.coreServices.AlbumsBean;
 import com.socialbook.catalogs.coreServices.CategoriesBean;
@@ -9,8 +11,10 @@ import com.socialbook.catalogs.dtos.AlbumDto;
 import com.socialbook.catalogs.dtos.ImageDto;
 import com.socialbook.catalogs.dtos.Mapper;
 import com.socialbook.catalogs.entities.Album;
+import com.socialbook.catalogs.entities.Category;
 import com.socialbook.catalogs.entities.Image;
 import com.socialbook.catalogs.interceptors.CollectRequests;
+import com.socialbook.catalogs.interceptors.ValidateAlbum;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -150,9 +154,13 @@ public class ImagesManagerBean {
 
     //READ
     @CollectRequests
-    public List<AlbumDto> getAllAlbums() {
-        List<Album> albums = albumsBean.getAlbums();
+    public List<AlbumDto> getAllAlbums(QueryParameters queryParameters) {
+        List<Album> albums = JPAUtils.queryEntities(em, Album.class, queryParameters);
         return Mapper.convertToAlbumDtos(albums);
+    }
+
+    public Long getAlbumsCount(QueryParameters queryParameters) {
+        return JPAUtils.queryEntitiesCount(em, Album.class, queryParameters);
     }
 
     //READ
@@ -163,6 +171,7 @@ public class ImagesManagerBean {
 
     //CREATE
     @Transactional
+    @ValidateAlbum
     public void createAlbum(AlbumDto albumDto) {
         em.getTransaction().begin();
         albumsBean.createAlbum(Mapper.convertToDao(albumDto));

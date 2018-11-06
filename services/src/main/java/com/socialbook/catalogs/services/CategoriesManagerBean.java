@@ -1,8 +1,11 @@
 package com.socialbook.catalogs.services;
 
+import com.kumuluz.ee.rest.beans.QueryParameters;
+import com.kumuluz.ee.rest.utils.JPAUtils;
 import com.socialbook.catalogs.coreServices.CategoriesBean;
 import com.socialbook.catalogs.dtos.CategoryDto;
 import com.socialbook.catalogs.dtos.Mapper;
+import com.socialbook.catalogs.entities.Album;
 import com.socialbook.catalogs.entities.Category;
 
 import javax.annotation.PostConstruct;
@@ -55,8 +58,13 @@ public class CategoriesManagerBean {
     }
 
     //READ all
-    public List<CategoryDto> getAll() {
+    public List<CategoryDto> getAll(QueryParameters queryParameters) {
         logger.info("Reading all categories");
-        return Mapper.convertToCategoryDtos(categoriesBean.getCategories());
+        List<Category> categories = JPAUtils.queryEntities(em, Category.class, queryParameters);
+        return Mapper.convertToCategoryDtos(categories);
+    }
+
+    public Long getCategoriesCount(QueryParameters queryParameters) {
+        return JPAUtils.queryEntitiesCount(em, Category.class, queryParameters);
     }
 }

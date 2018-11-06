@@ -5,15 +5,15 @@ services:
     ports:
     - 5432:5432
     environment:
-      POSTGRES_USER: dbuser
+      POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: customer
+      POSTGRES_DB: nejc
   service-catalog: #this is the name of exposed name???
-    image: 40850473/service-catalog:0.1.0
+    image: catalogs
     ports:
-    - 8080:8080
+    - 8081:8081
     environment:
-      KUMULUZEE_DATASOURCES0_CONNECTIONURL: jdbc:postgresql://postgres:5432/nejc
+      KUMULUZEE_DATASOURCES0_CONNECTION-URL: jdbc:postgresql://postgres:5432/nejc
       KUMULUZEE_CONFIG_ETCD_HOSTS: http://etcd:2379
       KUMULUZEE_DISCOVERY_ETCD_HOSTS: http://etcd:2379
     depends_on:
