@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: catalog-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: catalog
+  template:
+    metadata:
+      labels:
+        app: catalog
+    spec:
+      containers:
+      - image: 40850473/service-catalog:0.1.2
+        name: catalog
+        env:
+        - name: KUMULUZEE_DISCOVERY_CLUSTER
+          value: ibmcloud
+        - name: KUMULUZEE_DISCOVERY_ETCD_HOSTS
+          value: http://etcd:2379
+        - name: KUMULUZEE_CONFIG_ETCD_HOSTS
+          value: http://etcd:2379
+        - name: KUMULUZEE_SERVER_BASEURL
+          value: http://35.240.79.227:8080
+        - name: KUMULUZEE_DATASOURCES_CONNECTION-URL
+          value: jdbc:postgresql://10.144.190.173:5432/nejc
+        ports:
+        - containerPort: 8081
+          name: server
+          protocol: TCP
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: catalog
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 8081
+    protocol: TCP
+    targetPort: 8081
+  selector:
+    app: catalog

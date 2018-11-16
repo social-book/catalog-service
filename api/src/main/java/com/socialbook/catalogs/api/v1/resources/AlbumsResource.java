@@ -68,6 +68,7 @@ public class AlbumsResource {
                             @ApiResponse(description = "Validation error", responseCode = "406")
                     }
     )
+    //todo
     @Path("{userId}")
     public Response getAlbum(@PathParam("userId") String userId) {
         List<AlbumDto> albums = imagesManagerBean.getUserAlbums(userId);

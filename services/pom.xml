@@ -18,7 +18,7 @@
         </dependency>
         <dependency>
             <groupId>com.kumuluz.ee</groupId>
-            <artifactId>kumuluzee-jta-common</artifactId>
+            <artifactId>kumuluzee-jta-narayana</artifactId>
         </dependency>
         <dependency>
             <groupId>com.kumuluz.ee</groupId>

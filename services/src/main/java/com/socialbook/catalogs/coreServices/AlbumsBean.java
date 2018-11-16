@@ -68,7 +68,9 @@ public class AlbumsBean {
         logger.info("updating album");
         Album albumOld = em.find(Album.class, id);
         albumOld.setAlbumTitle(album.getAlbumTitle());
+//        albumOld.setImages(album.getImages());
         em.merge(albumOld);
+//        em.flush();
         em.getTransaction().commit();
     }
 

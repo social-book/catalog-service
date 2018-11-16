@@ -194,6 +194,7 @@ public class ImagesManagerBean {
         images.add(image);
         album.setImages(images);
         albumsBean.updateAlbum(album, albumId);
+        em.flush();
         em.getTransaction().commit();
 
         if (appProperties.isStatisticServiceEnabled()) {
