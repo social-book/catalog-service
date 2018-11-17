@@ -53,3 +53,25 @@ this process run etcd server so we can configure services in runtime
 * http://localhost:8081/v1/albums/categories?filter=category_id:GT:3
 * http://localhost:8081/v1/albums/categories?fields=category_id
 * http://localhost:8081/v1/albums/categories?limit=4&offset=2
+
+
+
+# OAuth 2.0
+## KeyCloak
+* ```docker run --name keycloak -e KEYCLOAK_USER=admin -e KEYCLOAK_PASSWORD=admin -d -p 9080:8080 jboss/keycloak```
+* http://192.168.99.100:9080
+* create new realm -> catalog-service
+* create new clients -> catalog-service-app, catalog-service-api
+* create new user -> nejc
+* go to user nejc -> credentials -> change password and set temporary to OFF
+* go to client -> catalog-service-app -> set root url to ```http://localhost:8080``` and set Valid redirect URIs to  ```http://localhost:8080/*``` 
+* go to client -> catalog-service-api -> set client protocol to -> bearer-only
+* create two roles -> skrbnik, administrator 
+* go to user nejc -> role mappings -> set role to assigned roles
+
+## POSTMAN
+* POST request -> http://192.168.99.100:9080/auth/realms/catalog-service/protocol/openid-connect/token
+* set header -> Content-Type: application/x-www-form-urlencoded
+* set body -> grant_type: password -> client_id: catalog-service-app -> username: nejc -> password: 1234
+* SEND Request -> copy access token
+* custom Request -> header -> Authorization: Bearer <access-token>

@@ -44,6 +44,12 @@
             <version>2.8.11</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.kumuluz.ee.security</groupId>
+            <artifactId>kumuluzee-security-keycloak</artifactId>
+            <version>1.0.1</version>
+        </dependency>
+
     </dependencies>
 
     <build>

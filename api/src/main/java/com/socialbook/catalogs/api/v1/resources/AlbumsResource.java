@@ -1,6 +1,7 @@
 package com.socialbook.catalogs.api.v1.resources;
 
 import com.kumuluz.ee.rest.beans.QueryParameters;
+import com.kumuluz.ee.security.annotations.Secure;
 import com.socialbook.catalogs.dtos.AlbumDto;
 import com.socialbook.catalogs.dtos.CategoryDto;
 import com.socialbook.catalogs.interceptors.ValidateAlbum;
@@ -13,6 +14,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 
+import javax.annotation.security.RolesAllowed;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.ws.rs.*;
@@ -22,6 +24,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 import java.util.List;
 
+@Secure
 @RequestScoped
 @Path("/albums")
 @Consumes(MediaType.APPLICATION_JSON)
@@ -39,6 +42,7 @@ public class AlbumsResource {
 
 
     @GET
+    @RolesAllowed({"skrbnik", "administrator"})
     @Operation(description = "Returns list of albums.", summary = "Album list", tags = "Albums", responses = {
             @ApiResponse(responseCode = "200",
                     description = "List of albums",
