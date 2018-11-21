@@ -5,6 +5,7 @@ import com.socialbook.catalogs.entities.Image;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.RequestScoped;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -15,7 +16,7 @@ import javax.transaction.Transactional;
 import java.util.List;
 import java.util.logging.Logger;
 
-@ApplicationScoped
+@RequestScoped
 public class ImagesBean {
 
     private static final String TAG = ImagesBean.class.getName();
@@ -82,7 +83,7 @@ public class ImagesBean {
     }
 
     //UPDATE
-    @Transactional
+    @Transactional(value = Transactional.TxType.MANDATORY)
     public void updateImage(Image image, int id) { //TODO here must be ImageDTO!!!!! as attr
         logger.info(TAG + ": updating image");
         em.getTransaction().begin();

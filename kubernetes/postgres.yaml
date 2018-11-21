@@ -42,6 +42,6 @@ spec:
   - name: client
     port: 5432
     protocol: TCP
-    targetPort: 432
+    targetPort: 5432
   selector:
     app: postgres
