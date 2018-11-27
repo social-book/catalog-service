@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: oauth-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: oauth
+  template:
+    metadata:
+      labels:
+        app: oauth
+    spec:
+      containers:
+      - image: jboss/keycloak
+        name: keycloak
+        env:
+            - name: KEYCLOAK_USER
+              value: admin
+            - name: KEYCLOAK_PASSWORD
+              value: admin
+        ports:
+        - containerPort: 8086
+          name: client
+          protocol: TCP
+        - containerPort: 8086
+          name: server
+          protocol: TCP
+          
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: oauth
+spec:
+  type: NodePort
+  ports:
+  - name: client
+    port: 8086
+    protocol: TCP
+    targetPort: 8086
+  selector:
+    app: oauth
+    

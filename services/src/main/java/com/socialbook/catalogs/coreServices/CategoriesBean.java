@@ -1,6 +1,7 @@
 package com.socialbook.catalogs.coreServices;
 
 import com.socialbook.catalogs.entities.Category;
+import org.eclipse.microprofile.metrics.annotation.Timed;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.context.RequestScoped;
@@ -25,6 +26,7 @@ public class CategoriesBean {
     }
 
     //READ
+    @Timed
     public Category getCategory(Integer categoryId) {
         em.createNamedQuery("Category.getCategory").setParameter("category_id", categoryId);
         return em.getReference(Category.class, categoryId);

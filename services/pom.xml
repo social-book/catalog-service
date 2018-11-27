@@ -28,6 +28,10 @@
             <groupId>service.socialbook.catalog</groupId>
             <artifactId>catalog-models</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.kumuluz.ee.metrics</groupId>
+            <artifactId>kumuluzee-metrics-core</artifactId>
+        </dependency>
     </dependencies>
 
 </project>
