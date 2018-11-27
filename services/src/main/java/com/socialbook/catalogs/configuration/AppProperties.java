@@ -14,6 +14,9 @@ public class AppProperties {
     @ConfigValue(value = "statistic-service.enabled", watch = true)
     private boolean statisticServiceEnabled;
 
+    @ConfigValue(value = "healthy.enabled", watch = true)
+    private boolean isHealthy = true;
+
     public boolean isExternalServicesEnabled() {
         return externalServicesEnabled;
     }
@@ -28,5 +31,13 @@ public class AppProperties {
 
     public void setStatisticServiceEnabled(boolean statisticServiceEnabled) {
         this.statisticServiceEnabled = statisticServiceEnabled;
+    }
+
+    public boolean isHealthy() {
+        return isHealthy;
+    }
+
+    public void setHealthy(boolean healthy) {
+        isHealthy = healthy;
     }
 }

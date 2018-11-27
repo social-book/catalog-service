@@ -23,6 +23,10 @@ kumuluzee:
                 "resource": "catalog-service-api"
               }'
 
+  health:
+    checks:
+      data-source-health-check:
+        jndi-name: jdbc/CatalogsDS
   config:
     etcd:
       hosts: http://192.168.99.100:2379
@@ -37,7 +41,8 @@ app-properties:
       enabled: false
     statistic-service:
       enabled: false
-
+    healthy:
+      enabled: true
 
 # docker run -d -p 8082:8082 40850473/service-upload:0.0.5
 #    docker run -d --name postgres -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=nejc -p 5432:5432 postgres:10.5

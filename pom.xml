@@ -25,6 +25,7 @@
         <kumuluzee-discovery.version>1.1.0</kumuluzee-discovery.version>
         <kumuluzee-openapi.version>1.0.0</kumuluzee-openapi.version>
         <kumuluzee-rest.version>1.2.3</kumuluzee-rest.version>
+        <kumuluzee-health.version>1.0.1</kumuluzee-health.version>
     </properties>
 
     <dependencyManagement>
@@ -40,6 +41,11 @@
                 <groupId>org.postgresql</groupId>
                 <artifactId>postgresql</artifactId>
                 <version>${postgresql.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.kumuluz.ee.health</groupId>
+                <artifactId>kumuluzee-health</artifactId>
+                <version>${kumuluzee-health.version}</version>
             </dependency>
             <dependency>
                 <groupId>service.socialbook.catalog</groupId>
