@@ -24,7 +24,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 import java.util.List;
 
-@Secure
+//@Secure
 @RequestScoped
 @Path("/albums")
 @Consumes(MediaType.APPLICATION_JSON)
@@ -41,8 +41,8 @@ public class AlbumsResource {
     CategoriesManagerBean categoriesManagerBean;
 
 
+    //@RolesAllowed({"skrbnik", "administrator"})
     @GET
-    @RolesAllowed({"skrbnik", "administrator"})
     @Operation(description = "Returns list of albums.", summary = "Album list", tags = "Albums", responses = {
             @ApiResponse(responseCode = "200",
                     description = "List of albums",

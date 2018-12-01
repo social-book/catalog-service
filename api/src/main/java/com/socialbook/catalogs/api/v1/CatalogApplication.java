@@ -12,8 +12,8 @@ import javax.annotation.security.DeclareRoles;
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
 
+//@DeclareRoles({"skrbnik", "administrator"})
 @RegisterService
 @OpenAPIDefinition(info = @Info(title = "Rest API", version = "v1", contact = @Contact(), license = @License(), description = "JavaSI API for managing conference."), security = @SecurityRequirement(name = "openid-connect"), servers = @Server(url ="http://localhost:8081/v1"))
-@DeclareRoles({"skrbnik", "administrator"})
 @ApplicationPath("/v1")
 public class CatalogApplication extends Application {}
