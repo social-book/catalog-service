@@ -64,14 +64,14 @@ public class AlbumsBean {
     //UPDATE
     @Transactional
     public void updateAlbum(Album album, Integer id) {
-        em.getTransaction().begin();
+//        em.getTransaction().begin();
         logger.info("updating album");
         Album albumOld = em.find(Album.class, id);
         albumOld.setAlbumTitle(album.getAlbumTitle());
 //        albumOld.setImages(album.getImages());
         em.merge(albumOld);
 //        em.flush();
-        em.getTransaction().commit();
+        //em.getTransaction().commit();
     }
 
     //DELETE

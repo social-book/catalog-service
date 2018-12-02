@@ -45,7 +45,7 @@ app-properties:
       enabled: false
     statistic-service:
       enabled: false
-    healthy:
+    healthy-service:
       enabled: true
 
 # docker run -d -p 8082:8082 40850473/service-upload:0.0.5

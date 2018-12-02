@@ -181,7 +181,7 @@ public class ImagesManagerBean {
 
     @Transactional
     public void addImageToAlbum(Integer albumId, String userId, Integer imageId) {
-        em.getTransaction().begin();
+        //em.getTransaction().begin();
         appProperties.isExternalServicesEnabled();
         Album album = albumsBean.getAlbum(albumId);
         List<Image> images = album.getImages();
@@ -194,8 +194,8 @@ public class ImagesManagerBean {
         images.add(image);
         album.setImages(images);
         albumsBean.updateAlbum(album, albumId);
-        em.flush();
-        em.getTransaction().commit();
+        //em.flush();
+        //em.getTransaction().commit();
 
         if (appProperties.isStatisticServiceEnabled()) {
             logger.info("Sending statistic data -> not implemented yet");

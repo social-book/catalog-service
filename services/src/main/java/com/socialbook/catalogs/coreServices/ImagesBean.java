@@ -76,9 +76,9 @@ public class ImagesBean {
     public void addImage(Image image) {
         logger.info(TAG + ": adding new image");
         if (image != null){
-            em.getTransaction().begin();
+//            em.getTransaction().begin();
             em.persist(image);
-            em.getTransaction().commit();
+//            em.getTransaction().commit();
         }
     }
 
