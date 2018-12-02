@@ -54,10 +54,10 @@ public class AlbumsBean {
     public void createAlbum(Album album) {
         logger.info("creating album");
         if (album != null){
-            em.getTransaction().begin();
+            //em.getTransaction().begin();
             em.persist(album);
             em.flush();
-            em.getTransaction().commit();
+            //em.getTransaction().commit();
         }
     }
 
@@ -78,10 +78,10 @@ public class AlbumsBean {
     @Transactional
     public void deletAlbum(Integer id) {
         logger.info("deleting album with id: " + id);
-        em.getTransaction().begin();
+        //em.getTransaction().begin();
         Album album = em.find(Album.class, id);
         if (album != null)
             em.remove(album);
-        em.getTransaction().commit();
+        //em.getTransaction().commit();
     }
 }

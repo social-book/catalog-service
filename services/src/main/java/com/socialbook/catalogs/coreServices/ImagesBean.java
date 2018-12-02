@@ -86,21 +86,21 @@ public class ImagesBean {
     @Transactional(value = Transactional.TxType.MANDATORY)
     public void updateImage(Image image, int id) { //TODO here must be ImageDTO!!!!! as attr
         logger.info(TAG + ": updating image");
-        em.getTransaction().begin();
+        //em.getTransaction().begin();
         Image imageOld = em.find(Image.class, id);
         imageOld.setImageName(image.getImageName());
         imageOld.setImageSrc(image.getImageSrc());
         em.persist(imageOld);
-        em.getTransaction().commit();
+        //em.getTransaction().commit();
     }
 
     //DELETE
     @Transactional
     public void deleteImage(Integer id) {
         logger.info(TAG + ": deleting image with id: " + id);
-        em.getTransaction().begin();
+        //em.getTransaction().begin();
         Image imageToDel = em.find(Image.class, id);
         em.remove(imageToDel);
-        em.getTransaction().commit();
+        //em.getTransaction().commit();
     }
 }

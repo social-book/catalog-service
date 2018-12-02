@@ -19,6 +19,7 @@ import com.socialbook.catalogs.interceptors.ValidateAlbum;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -36,7 +37,7 @@ import java.util.logging.Logger;
 
 import static jdk.nashorn.internal.runtime.regexp.joni.Config.log;
 
-@ApplicationScoped
+@RequestScoped
 public class ImagesManagerBean {
 
     private static final String TAG = ImagesManagerBean.class.getName();
@@ -87,7 +88,7 @@ public class ImagesManagerBean {
         image.setImageName(imageDto.getImageName());
         image.setImageSrc(imageDto.getImageSrc());
 
-        em.getTransaction().begin();
+        //em.getTransaction().begin();
         Album album;
         if (imageDto.getAlbum().getId() == null) {
             album = createAlbum(imageDto);
@@ -98,7 +99,7 @@ public class ImagesManagerBean {
         image.setAlbum(album);
         imagesBean.addImage(image);
         em.flush();
-        em.getTransaction().commit();
+        //em.getTransaction().commit();
     }
 
     @Transactional
@@ -173,30 +174,25 @@ public class ImagesManagerBean {
     @Transactional
     @ValidateAlbum
     public void createAlbum(AlbumDto albumDto) {
-        em.getTransaction().begin();
+        //em.getTransaction().begin();
         albumsBean.createAlbum(Mapper.convertToDao(albumDto));
         em.flush();
-        em.getTransaction().commit();
+        //em.getTransaction().commit();
     }
 
     @Transactional
     public void addImageToAlbum(Integer albumId, String userId, Integer imageId) {
-        //em.getTransaction().begin();
         appProperties.isExternalServicesEnabled();
         Album album = albumsBean.getAlbum(albumId);
         List<Image> images = album.getImages();
         Image image = new Image();
         image.setImageName("NONE");
-        //TODO image name and image core URL? service discovery?
-        image.setImageSrc("http://localhost:8082/images?imageId=" + imageId);
+        image.setImageSrc("/images?imageId=" + imageId);
         image.setAlbum(album);
         imagesBean.addImage(image);
         images.add(image);
         album.setImages(images);
         albumsBean.updateAlbum(album, albumId);
-        //em.flush();
-        //em.getTransaction().commit();
-
         if (appProperties.isStatisticServiceEnabled()) {
             logger.info("Sending statistic data -> not implemented yet");
         }
