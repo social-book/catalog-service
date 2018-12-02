@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: catalog-deployment
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: catalog
@@ -13,7 +13,7 @@ spec:
         app: catalog
     spec:
       containers:
-      - image: 40850473/service-catalog:0.1.5
+      - image: 40850473/service-catalog:0.1.9
         name: catalog
         env:
         - name: KUMULUZEE_DISCOVERY_CLUSTER
