@@ -5,6 +5,7 @@ import com.kumuluz.ee.rest.beans.QueryParameters;
 import com.kumuluz.ee.security.annotations.Secure;
 import com.socialbook.catalogs.dtos.AlbumDto;
 import com.socialbook.catalogs.dtos.CategoryDto;
+import com.socialbook.catalogs.dtos.ImageDto;
 import com.socialbook.catalogs.interceptors.ValidateAlbum;
 import com.socialbook.catalogs.services.CategoriesManagerBean;
 import com.socialbook.catalogs.services.ImagesManagerBean;
@@ -23,6 +24,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
+import java.util.ArrayList;
 import java.util.List;
 
 //@Secure
@@ -121,7 +123,24 @@ public class AlbumsResource {
                         "origin, content-type, accept, authorization, body")
                 .header("Access-Control-Allow-Methods",
                         "GET, POST, PUT, DELETE, OPTIONS, HEAD")
+                .entity("")
                 .build();
+    }
+
+    @GET
+    @Path("/add")
+    public Response addNewAlbumGet(@QueryParam("categoryId") Integer categoryId,
+                                   @QueryParam("title") String title,
+                                   @QueryParam("userId") String userId) {
+        AlbumDto albumDto = new AlbumDto();
+        CategoryDto categoryDto = new CategoryDto();
+        categoryDto.setId(categoryId);
+        albumDto.setCategory(categoryDto);
+        albumDto.setTitle(title);
+        ArrayList<ImageDto> tmp = new ArrayList<>();
+        albumDto.setImages(tmp);
+        albumDto.setUserId(userId);
+        return addNewAlbum(albumDto);
     }
 
     //add new image to album with service discovery
