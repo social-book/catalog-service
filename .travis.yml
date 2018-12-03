@@ -7,14 +7,14 @@ language: java
 dist: trusty
 
 jdk:
-- openjdk11
+- openjdk8
 
 cache:
   directories:
   - $HOME/.m2
 
 env:
-  - DOCKER_IMAGE=40850473/service-catalog:0.1.9
+  - DOCKER_IMAGE=40850473/service-catalog:0.2.0
 
 script:
 - mvn clean package -U

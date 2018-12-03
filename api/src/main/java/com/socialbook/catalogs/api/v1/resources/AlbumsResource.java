@@ -1,5 +1,6 @@
 package com.socialbook.catalogs.api.v1.resources;
 
+import com.kumuluz.ee.cors.annotations.CrossOrigin;
 import com.kumuluz.ee.rest.beans.QueryParameters;
 import com.kumuluz.ee.security.annotations.Secure;
 import com.socialbook.catalogs.dtos.AlbumDto;
@@ -29,6 +30,7 @@ import java.util.List;
 @Path("/albums")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
+@CrossOrigin
 public class AlbumsResource {
 
     @Context
