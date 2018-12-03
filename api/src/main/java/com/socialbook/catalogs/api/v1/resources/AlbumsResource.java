@@ -115,7 +115,13 @@ public class AlbumsResource {
     )
     public Response addNewAlbum(AlbumDto albumDto) {
         imagesManagerBean.createAlbum(albumDto);
-        return Response.status(Response.Status.CREATED).build();
+        return Response.status(Response.Status.CREATED).header("Access-Control-Allow-Origin", "*")
+                .header("Access-Control-Allow-Credentials", "true")
+                .header("Access-Control-Allow-Headers",
+                        "origin, content-type, accept, authorization, body")
+                .header("Access-Control-Allow-Methods",
+                        "GET, POST, PUT, DELETE, OPTIONS, HEAD")
+                .build();
     }
 
     //add new image to album with service discovery
