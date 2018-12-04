@@ -15,6 +15,9 @@ import com.socialbook.catalogs.entities.Category;
 import com.socialbook.catalogs.entities.Image;
 import com.socialbook.catalogs.interceptors.CollectRequests;
 import com.socialbook.catalogs.interceptors.ValidateAlbum;
+import org.eclipse.microprofile.faulttolerance.CircuitBreaker;
+import org.eclipse.microprofile.faulttolerance.Fallback;
+import org.eclipse.microprofile.faulttolerance.Timeout;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -30,6 +33,7 @@ import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.core.GenericType;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -63,7 +67,7 @@ public class ImagesManagerBean {
     private CategoriesManagerBean categoriesManagerBean;
 
     @Inject
-    @DiscoverService("statistic-service") //name is specified in config.yaml
+    @DiscoverService("user-service") //name is specified in config.yaml
     private Optional<String> baseUrl;
 
     private Client httpClient;
@@ -197,11 +201,30 @@ public class ImagesManagerBean {
             logger.info("Sending statistic data -> not implemented yet");
         }
     }
+
+    @CircuitBreaker(requestVolumeThreshold = 3)
+    @Timeout(value = 2, unit = ChronoUnit.SECONDS)
+    @Fallback(fallbackMethod = "executeFallback")
+    public String testFallback() {
+        try {
+            return httpClient
+                    .target(baseUrl.get() + "/v1/users/")
+                    .request().get(new GenericType<String>() {
+            });
+        } catch (WebApplicationException | ProcessingException e) {
+            return null;
+        }
+    }
+
+    public String executeFallback() {
+        return "{\"fallback\": 12}";
+    }
+
     private Image sendStatistic() {
         if (appProperties.isExternalServicesEnabled()) {
             try {
                 return httpClient
-                        .target(baseUrl.get() + "/v1/orders")
+                        .target(baseUrl.get() + "/v1/users")
                         .request().get(new GenericType<Image>(){});
             }catch (WebApplicationException | ProcessingException e2) {
                 logger.severe(e2.getMessage());

@@ -1,6 +1,8 @@
 package com.socialbook.catalogs.api.v1.resources;
 
 import com.kumuluz.ee.cors.annotations.CrossOrigin;
+import com.kumuluz.ee.discovery.annotations.DiscoverService;
+import com.kumuluz.ee.logs.cdi.Log;
 import com.kumuluz.ee.rest.beans.QueryParameters;
 import com.kumuluz.ee.security.annotations.Secure;
 import com.socialbook.catalogs.dtos.AlbumDto;
@@ -20,14 +22,12 @@ import javax.annotation.security.RolesAllowed;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.ws.rs.*;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.UriInfo;
+import javax.ws.rs.core.*;
 import java.util.ArrayList;
 import java.util.List;
 
 //@Secure
+@Log
 @RequestScoped
 @Path("/albums")
 @Consumes(MediaType.APPLICATION_JSON)
@@ -156,6 +156,13 @@ public class AlbumsResource {
                                        @PathParam("imageId") Integer imageId) {
         imagesManagerBean.addImageToAlbum(albumId, userId, imageId);
         return Response.status(Response.Status.CREATED).build();
+    }
+
+    @GET
+    @Path("/dummy")
+    public Response getDummyFallback() {
+        String response = imagesManagerBean.testFallback();
+        return Response.ok(response).build();
     }
 
 }
