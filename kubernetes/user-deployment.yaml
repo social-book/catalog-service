@@ -13,7 +13,7 @@ spec:
         app: users
     spec:
       containers:
-      - image: 40850473/service-users:1.0.7
+      - image: 40850473/service-users:1.1.7
         name: users
         env:
         - name: KUMULUZEE_DISCOVERY_CLUSTER

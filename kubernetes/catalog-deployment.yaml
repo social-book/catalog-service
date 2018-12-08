@@ -13,7 +13,7 @@ spec:
         app: catalog
     spec:
       containers:
-      - image: 40850473/service-catalog:0.3.2
+      - image: 40850473/service-catalog:1.0.0
         name: catalog
         env:
         - name: KUMULUZEE_DISCOVERY_CLUSTER

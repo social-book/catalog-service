@@ -8,6 +8,7 @@ import com.kumuluz.ee.security.annotations.Secure;
 import com.socialbook.catalogs.dtos.AlbumDto;
 import com.socialbook.catalogs.dtos.CategoryDto;
 import com.socialbook.catalogs.dtos.ImageDto;
+import com.socialbook.catalogs.interceptors.CollectRequests;
 import com.socialbook.catalogs.interceptors.ValidateAlbum;
 import com.socialbook.catalogs.services.CategoriesManagerBean;
 import com.socialbook.catalogs.services.ImagesManagerBean;
@@ -54,6 +55,7 @@ public class AlbumsResource {
                             array = @ArraySchema(schema = @Schema(implementation = AlbumDto.class))),
                     headers = {@Header(name = "X-Total-Count",
                             schema = @Schema(type = "int"))})})
+    @CollectRequests
     public Response getAllAlbums() {
         QueryParameters queryParameters = QueryParameters.query(uriInfo.getRequestUri().getQuery())
                 .defaultOffset(0)
@@ -76,8 +78,8 @@ public class AlbumsResource {
                             @ApiResponse(description = "Validation error", responseCode = "406")
                     }
     )
-    //todo
     @Path("{userId}")
+    @CollectRequests
     public Response getAlbum(@PathParam("userId") String userId) {
         List<AlbumDto> albums = imagesManagerBean.getUserAlbums(userId);
         if (albums != null) {
@@ -97,6 +99,7 @@ public class AlbumsResource {
             }
     )
     @Path("/categories")
+    @CollectRequests
     public Response getCategories() {
         QueryParameters queryParameters = QueryParameters.query(uriInfo.getRequestUri().getQuery())
                 .defaultOffset(0)
@@ -115,6 +118,7 @@ public class AlbumsResource {
             description = "Create new album for particular user",
             responses = {@ApiResponse(description = "Album created", responseCode = "201")}
     )
+    @CollectRequests
     public Response addNewAlbum(AlbumDto albumDto) {
         imagesManagerBean.createAlbum(albumDto);
         return Response.status(Response.Status.CREATED).header("Access-Control-Allow-Origin", "*")
@@ -129,6 +133,7 @@ public class AlbumsResource {
 
     @GET
     @Path("/add")
+    @CollectRequests
     public Response addNewAlbumGet(@QueryParam("categoryId") Integer categoryId,
                                    @QueryParam("title") String title,
                                    @QueryParam("userId") String userId) {
@@ -151,6 +156,7 @@ public class AlbumsResource {
             responses = {@ApiResponse(description = "Image url added", responseCode = "201")}
     )
     @Path("/add/{userId}/{albumId}/{imageId}")
+    @CollectRequests
     public Response addImageSrcToAlbum(@PathParam("userId") String userId,
                                        @PathParam("albumId") Integer albumId,
                                        @PathParam("imageId") Integer imageId) {
@@ -160,6 +166,7 @@ public class AlbumsResource {
 
     @GET
     @Path("/dummy")
+    @CollectRequests
     public Response getDummyFallback() {
         String response = imagesManagerBean.testFallback();
         return Response.ok(response).build();
