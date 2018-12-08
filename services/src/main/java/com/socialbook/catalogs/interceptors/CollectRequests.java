@@ -9,4 +9,6 @@ import java.lang.annotation.Target;
 @InterceptorBinding
 @Target({ElementType.TYPE, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface CollectRequests {}
+public @interface CollectRequests {
+    String name() default "";
+}

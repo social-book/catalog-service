@@ -158,6 +158,7 @@ public class ImagesManagerBean {
     }
 
     //READ
+//    @CollectRequests(name = "statistic-service -> getAlbums")
     @CollectRequests
     public List<AlbumDto> getAllAlbums(QueryParameters queryParameters) {
         List<Album> albums = JPAUtils.queryEntities(em, Album.class, queryParameters);
@@ -169,6 +170,7 @@ public class ImagesManagerBean {
     }
 
     //READ
+    @CollectRequests
     public List<AlbumDto> getUserAlbums(String userId) {
         List<Album> albums = albumsBean.getUserAlbums(userId);
         return Mapper.convertToAlbumDtos(albums);

@@ -64,7 +64,7 @@ app-properties:
     external-services:
       enabled: false
     statistic-service:
-      enabled: false
+      enabled: true
     healthy-service:
       enabled: true
 

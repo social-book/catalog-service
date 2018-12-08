@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: statistics-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: statistics
+  template:
+    metadata:
+      labels:
+        app: statistics
+    spec:
+      containers:
+        - image: 40850473/service-statistic:0.0.7
+          name: users
+          env:
+            - name: KUMULUZEE_DISCOVERY_CLUSTER
+              value: ibmcloud
+            - name: KUMULUZEE_DISCOVERY_ETCD_HOSTS
+              value: http://etcd:2379
+            - name: KUMULUZEE_CONFIG_ETCD_HOSTS
+              value: http://etcd:2379
+            - name: KUMULUZEE_SERVER_BASEURL
+              value: http://35.240.79.227:8080
+            - name: KUMULUZEE_DATASOURCES0_CONNECTIONURL
+              value: jdbc:postgresql://172.21.12.254:5432/nejc
+          ports:
+            - containerPort: 8083
+              name: server
+              protocol: TCP
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: statistics
+spec:
+  type: NodePort
+  ports:
+    - port: 8084
+      protocol: TCP
+      targetPort: 8084
+  selector:
+    app: statistics

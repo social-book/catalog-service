@@ -13,7 +13,7 @@ spec:
         app: upload
     spec:
       containers:
-      - image: 40850473/service-upload:0.2.1
+      - image: 40850473/service-upload:2.0.0
         name: upload
         env:
         - name: KUMULUZEE_DISCOVERY_CLUSTER
