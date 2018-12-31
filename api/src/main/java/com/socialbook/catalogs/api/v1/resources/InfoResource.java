@@ -17,6 +17,7 @@ import java.util.ArrayList;
 @Produces(MediaType.APPLICATION_JSON)
 public class InfoResource {
 
+//Info resources requester... for info about requests
     @GET
     @Path("/info")
     public Response getInfo() {
