@@ -21,7 +21,7 @@ public class MockHealthCheck implements HealthCheck {
         HealthCheckResponseBuilder healthCheckResponseBuilder =
                 HealthCheckResponse.named(MockHealthCheck.class.getName());
 
-        if (true)
+        if (appProperties.isHealthyServiceEnabled())
             return healthCheckResponseBuilder.up().build();
         return healthCheckResponseBuilder.down().build();
     }
