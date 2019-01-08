@@ -28,7 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 //@Secure
-//@Log
+@Log
 @RequestScoped
 @Path("/albums")
 @Consumes(MediaType.APPLICATION_JSON)
